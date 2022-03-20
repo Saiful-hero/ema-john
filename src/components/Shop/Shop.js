@@ -1,6 +1,7 @@
 // import React from 'react';
 import React, { useState } from 'react';
 import fakeData from '../../fakeData'
+import { addToDb,getDb, getStoredCart } from '../../utilities/fakedb';
 import Cart from '../Cart/Cart';
 import Product from '../Product/Product';
 import './Shop.css'
@@ -16,6 +17,9 @@ const Shop = () => {
         // console.log("I'm clicked", product);
         const newCart =[...cart, product];
         setCart(newCart);
+        const sameProduct = newCart.filter(pd => pd.key === product.key);
+        const count = sameProduct.length;
+        addToDb(product.id,count);
    }
    
      return(
@@ -23,7 +27,7 @@ const Shop = () => {
             <div className="product-container">
          
                 {
-                    products.map(product => <Product product={product} handleAddProduct={handleAddProduct}></Product>)
+                    products.map(product => <Product product={product} handleAddProduct={handleAddProduct} showAddToCart={true} key= {product.key}></Product>)
                 }
             
             </div>
